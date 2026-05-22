@@ -1,0 +1,197 @@
+:root {
+  --primary-color: #ff3366;
+  --secondary-color: #33ccff;
+  --bg-color: #111119;
+  --text-color: #ffffff;
+  --hit-circle-size: 80px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow: hidden; /* Prevent scrolling during gameplay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* UI Elements */
+.header-ui {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.score {
+  font-size: 36px;
+  color: var(--secondary-color);
+  text-shadow: 0 0 15px rgba(51, 204, 255, 0.8);
+}
+
+.combo {
+  color: var(--primary-color);
+  text-shadow: 0 0 15px rgba(255, 51, 102, 0.8);
+}
+
+/* Screens */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 17, 25, 0.8);
+  backdrop-filter: blur(5px);
+  z-index: 20;
+}
+
+.title {
+  font-size: 80px;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  filter: drop-shadow(0 0 15px rgba(255,51,102,0.4));
+}
+
+.btn {
+  padding: 15px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(45deg, var(--primary-color), #ff6699);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 51, 102, 0.8);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* Game Area */
+.game-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Hit Circles */
+.hit-circle-container {
+  position: absolute;
+  width: var(--hit-circle-size);
+  height: var(--hit-circle-size);
+  transform: translate(-50%, -50%);
+  cursor: crosshair;
+}
+
+.hit-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 20%, var(--primary-color) 80%);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px var(--primary-color);
+  z-index: 2;
+  transition: transform 0.1s;
+}
+
+.hit-circle:hover {
+  transform: scale(1.05);
+}
+
+.approach-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  border-radius: 50%;
+  border: 4px solid var(--secondary-color);
+  box-shadow: 0 0 15px var(--secondary-color), inset 0 0 15px var(--secondary-color);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+  /* Animation is applied dynamically in React via style or keyframes */
+}
+
+@keyframes approach {
+  from { width: 300%; height: 300%; opacity: 0; }
+  10% { opacity: 1; }
+  to { width: 100%; height: 100%; opacity: 1; }
+}
+
+/* Hit Feedback */
+.hit-feedback {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  font-weight: bold;
+  pointer-events: none;
+  animation: floatUpFade 0.5s ease-out forwards;
+  z-index: 5;
+}
+
+.hit-300 { color: #33ccff; text-shadow: 0 0 10px #33ccff; }
+.hit-100 { color: #33ff33; text-shadow: 0 0 10px #33ff33; }
+.hit-50 { color: #ffff33; text-shadow: 0 0 10px #ffff33; }
+.hit-miss { color: #ff3333; text-shadow: 0 0 10px #ff3333; }
+
+@keyframes floatUpFade {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -100%) scale(1.2); }
+}
